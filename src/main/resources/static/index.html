@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Stock Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-boxes"></i> Smart Stock Management
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#products">Ürünler</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#warehouses">Depolar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#stocks">Stoklar</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 bg-light sidebar">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active" onclick="showPage('dashboard')">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('products')">
+                    <i class="fas fa-box"></i> Ürünler
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('warehouses')">
+                    <i class="fas fa-warehouse"></i> Depolar
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('stocks')">
+                    <i class="fas fa-boxes"></i> Stoklar
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('suppliers')">
+                    <i class="fas fa-truck"></i> Tedarikçiler
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('batches')">
+                    <i class="fas fa-barcode"></i> Partiler
+                </a>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="col-md-10">
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="content-page">
+                <h2>Dashboard</h2>
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Toplam Ürün</h5>
+                                <h2 id="total-products">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Toplam Depo</h5>
+                                <h2 id="total-warehouses">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Düşük Stok</h5>
+                                <h2 id="low-stock">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-danger mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Süresi Dolan</h5>
+                                <h2 id="expired-batches">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Page -->
+            <div id="products-page" class="content-page" style="display:none;">
+                <h2>Ürünler</h2>
+                <button class="btn btn-primary mb-3" onclick="showProductForm()">
+                    <i class="fas fa-plus"></i> Yeni Ürün Ekle
+                </button>
+                <div id="product-form" style="display:none;">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5>Yeni Ürün</h5>
+                            <form id="add-product-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control mb-2" id="product-sku" placeholder="SKU" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control mb-2" id="product-name" placeholder="Ürün Adı" required>
+                                    </div>
+                                </div>
+                                <textarea class="form-control mb-2" id="product-description" placeholder="Açıklama"></textarea>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input type="number" class="form-control mb-2" id="product-price" placeholder="Fiyat" step="0.01">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control mb-2" id="product-unit" placeholder="Birim (adet, kg)">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="number" class="form-control mb-2" id="product-min-stock" placeholder="Min. Stok">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success">Kaydet</button>
+                                <button type="button" class="btn btn-secondary" onclick="hideProductForm()">İptal</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Ürün Adı</th>
+                        <th>Fiyat</th>
+                        <th>Birim</th>
+                        <th>Min. Stok</th>
+                        <th>İşlemler</th>
+                    </tr>
+                    </thead>
+                    <tbody id="products-table">
+                    <!-- JavaScript ile doldurulacak -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Diğer sayfalar benzer şekilde... -->
+            <div id="warehouses-page" class="content-page" style="display:none;">
+                <h2>Depolar</h2>
+                <p>Depo yönetimi burada...</p>
+            </div>
+
+            <div id="stocks-page" class="content-page" style="display:none;">
+                <h2>Stoklar</h2>
+                <p>Stok yönetimi burada...</p>
+            </div>
+
+            <div id="suppliers-page" class="content-page" style="display:none;">
+                <h2>Tedarikçiler</h2>
+                <p>Tedarikçi yönetimi burada...</p>
+            </div>
+
+            <div id="batches-page" class="content-page" style="display:none;">
+                <h2>Partiler</h2>
+                <p>Parti yönetimi burada...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

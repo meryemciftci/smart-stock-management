@@ -1,0 +1,29 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+
+# Database
+*.db
+
+# Application Properties (şifre varsa)
+# application.properties
