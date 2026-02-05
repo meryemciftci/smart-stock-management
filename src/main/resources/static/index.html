@@ -9,178 +9,703 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <i class="fas fa-boxes"></i> Smart Stock Management
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#dashboard">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#products">Ürünler</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#warehouses">Depolar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#stocks">Stoklar</a>
-                </li>
-            </ul>
-        </div>
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <i class="fas fa-boxes"></i>
+        <span>Smart Stock</span>
     </div>
-</nav>
+    <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" onclick="showPage('dashboard')">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('products')">
+            <i class="fas fa-box"></i>
+            <span>Ürünler</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('warehouses')">
+            <i class="fas fa-warehouse"></i>
+            <span>Depolar</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('stocks')">
+            <i class="fas fa-boxes"></i>
+            <span>Stoklar</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('suppliers')">
+            <i class="fas fa-truck"></i>
+            <span>Tedarikçiler</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('batches')">
+            <i class="fas fa-barcode"></i>
+            <span>Partiler</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('transfers')">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transferler</span>
+        </a>
+    </nav>
+</div>
 
 <!-- Main Content -->
-<div class="container-fluid mt-4">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-2 bg-light sidebar">
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active" onclick="showPage('dashboard')">
-                    <i class="fas fa-chart-line"></i> Dashboard
-                </a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('products')">
-                    <i class="fas fa-box"></i> Ürünler
-                </a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('warehouses')">
-                    <i class="fas fa-warehouse"></i> Depolar
-                </a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('stocks')">
-                    <i class="fas fa-boxes"></i> Stoklar
-                </a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('suppliers')">
-                    <i class="fas fa-truck"></i> Tedarikçiler
-                </a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="showPage('batches')">
-                    <i class="fas fa-barcode"></i> Partiler
-                </a>
+<div class="main-content">
+    <!-- Top Bar -->
+    <div class="topbar">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="topbar-right">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Ara...">
             </div>
-        </div>
-
-        <!-- Content Area -->
-        <div class="col-md-10">
-            <!-- Dashboard Page -->
-            <div id="dashboard-page" class="content-page">
-                <h2>Dashboard</h2>
-                <div class="row mt-4">
-                    <div class="col-md-3">
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Toplam Ürün</h5>
-                                <h2 id="total-products">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-white bg-success mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Toplam Depo</h5>
-                                <h2 id="total-warehouses">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-white bg-warning mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Düşük Stok</h5>
-                                <h2 id="low-stock">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-white bg-danger mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Süresi Dolan</h5>
-                                <h2 id="expired-batches">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Products Page -->
-            <div id="products-page" class="content-page" style="display:none;">
-                <h2>Ürünler</h2>
-                <button class="btn btn-primary mb-3" onclick="showProductForm()">
-                    <i class="fas fa-plus"></i> Yeni Ürün Ekle
-                </button>
-                <div id="product-form" style="display:none;">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5>Yeni Ürün</h5>
-                            <form id="add-product-form">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control mb-2" id="product-sku" placeholder="SKU" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control mb-2" id="product-name" placeholder="Ürün Adı" required>
-                                    </div>
-                                </div>
-                                <textarea class="form-control mb-2" id="product-description" placeholder="Açıklama"></textarea>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <input type="number" class="form-control mb-2" id="product-price" placeholder="Fiyat" step="0.01">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control mb-2" id="product-unit" placeholder="Birim (adet, kg)">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="number" class="form-control mb-2" id="product-min-stock" placeholder="Min. Stok">
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success">Kaydet</button>
-                                <button type="button" class="btn btn-secondary" onclick="hideProductForm()">İptal</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>SKU</th>
-                        <th>Ürün Adı</th>
-                        <th>Fiyat</th>
-                        <th>Birim</th>
-                        <th>Min. Stok</th>
-                        <th>İşlemler</th>
-                    </tr>
-                    </thead>
-                    <tbody id="products-table">
-                    <!-- JavaScript ile doldurulacak -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Diğer sayfalar benzer şekilde... -->
-            <div id="warehouses-page" class="content-page" style="display:none;">
-                <h2>Depolar</h2>
-                <p>Depo yönetimi burada...</p>
-            </div>
-
-            <div id="stocks-page" class="content-page" style="display:none;">
-                <h2>Stoklar</h2>
-                <p>Stok yönetimi burada...</p>
-            </div>
-
-            <div id="suppliers-page" class="content-page" style="display:none;">
-                <h2>Tedarikçiler</h2>
-                <p>Tedarikçi yönetimi burada...</p>
-            </div>
-
-            <div id="batches-page" class="content-page" style="display:none;">
-                <h2>Partiler</h2>
-                <p>Parti yönetimi burada...</p>
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+            </button>
+            <div class="user-menu">
+                <i class="fas fa-user-circle"></i>
+                <span>Admin</span>
             </div>
         </div>
     </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboard-page" class="content-page">
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <p class="text-muted">Hoş geldiniz! Sisteme genel bakış</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-box"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-products">0</div>
+                    <div class="stat-label">Toplam Ürün</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-warehouses">0</div>
+                    <div class="stat-label">Toplam Depo</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="low-stock">0</div>
+                    <div class="stat-label">Düşük Stok</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon bg-danger">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="expired-batches">0</div>
+                    <div class="stat-label">Süresi Dolan</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card-modern mt-4">
+            <div class="card-header-modern">
+                <h5><i class="fas fa-chart-line me-2"></i>Son Aktiviteler</h5>
+            </div>
+            <div class="card-body-modern">
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon bg-primary">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Yeni ürün eklendi</div>
+                            <div class="activity-time">5 dakika önce</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon bg-warning">
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Düşük stok uyarısı</div>
+                            <div class="activity-time">15 dakika önce</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Page -->
+    <div id="products-page" class="content-page" style="display:none;">
+        <div class="page-header">
+            <div>
+                <h1>Ürünler</h1>
+                <p class="text-muted">Tüm ürünleri görüntüleyin ve yönetin</p>
+            </div>
+            <button class="btn-modern btn-primary" onclick="showProductForm()">
+                <i class="fas fa-plus me-2"></i>Yeni Ürün Ekle
+            </button>
+        </div>
+
+        <!-- Product Form -->
+        <div id="product-form" class="card-modern mb-4" style="display:none;">
+            <div class="card-header-modern">
+                <h5><i class="fas fa-plus-circle me-2"></i>Yeni Ürün Ekle</h5>
+            </div>
+            <div class="card-body-modern">
+                <form id="add-product-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">SKU (Stok Kodu)</label>
+                            <input type="text" class="form-control-modern" id="product-sku" placeholder="PRD001" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ürün Adı</label>
+                            <input type="text" class="form-control-modern" id="product-name" placeholder="Ürün adı" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Açıklama</label>
+                            <textarea class="form-control-modern" id="product-description" rows="3" placeholder="Ürün açıklaması"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Birim Fiyat (₺)</label>
+                            <input type="number" class="form-control-modern" id="product-price" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Birim</label>
+                            <input type="text" class="form-control-modern" id="product-unit" placeholder="adet, kg, litre">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Minimum Stok Seviyesi</label>
+                            <input type="number" class="form-control-modern" id="product-min-stock" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn-modern btn-primary me-2">
+                            <i class="fas fa-save me-2"></i>Kaydet
+                        </button>
+                        <button type="button" class="btn-modern btn-secondary" onclick="hideProductForm()">
+                            <i class="fas fa-times me-2"></i>İptal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="card-modern">
+            <div class="card-body-modern">
+                <div class="table-container">
+                    <table class="table-modern">
+                        <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Ürün Adı</th>
+                            <th>Fiyat</th>
+                            <th>Birim</th>
+                            <th>Min. Stok</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody id="products-table">
+                        <!-- JavaScript ile doldurulacak -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other Pages (Placeholder) -->
+    <!-- Warehouses Page -->
+    <div id="warehouses-page" class="content-page" style="display:none;">
+        <div class="page-header">
+            <div>
+                <h1>Depolar</h1>
+                <p class="text-muted">Depo yönetimi ve izleme</p>
+            </div>
+            <button class="btn-modern btn-primary" onclick="showWarehouseForm()">
+                <i class="fas fa-plus me-2"></i>Yeni Depo Ekle
+            </button>
+        </div>
+
+        <!-- Warehouse Form -->
+        <div id="warehouse-form" class="card-modern mb-4" style="display:none;">
+            <div class="card-header-modern">
+                <h5><i class="fas fa-warehouse me-2"></i>Yeni Depo Ekle</h5>
+            </div>
+            <div class="card-body-modern">
+                <form id="add-warehouse-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Depo Kodu</label>
+                            <input type="text" class="form-control-modern" id="warehouse-code" placeholder="WH001" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Depo Adı</label>
+                            <input type="text" class="form-control-modern" id="warehouse-name" placeholder="Merkez Depo" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Adres</label>
+                            <input type="text" class="form-control-modern" id="warehouse-address" placeholder="Tam adres">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Şehir</label>
+                            <input type="text" class="form-control-modern" id="warehouse-city" placeholder="İstanbul">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Telefon</label>
+                            <input type="text" class="form-control-modern" id="warehouse-phone" placeholder="0212-555-0001">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Toplam Kapasite (m³)</label>
+                            <input type="number" class="form-control-modern" id="warehouse-capacity" placeholder="10000" step="0.01">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Güncel Kullanım (m³)</label>
+                            <input type="number" class="form-control-modern" id="warehouse-usage" placeholder="0" step="0.01">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Depo Sorumlusu</label>
+                            <input type="text" class="form-control-modern" id="warehouse-manager" placeholder="Ahmet Yılmaz">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn-modern btn-primary me-2">
+                            <i class="fas fa-save me-2"></i>Kaydet
+                        </button>
+                        <button type="button" class="btn-modern btn-secondary" onclick="hideWarehouseForm()">
+                            <i class="fas fa-times me-2"></i>İptal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Warehouses Table -->
+        <div class="card-modern">
+            <div class="card-body-modern">
+                <div class="table-container">
+                    <table class="table-modern">
+                        <thead>
+                        <tr>
+                            <th>Kod</th>
+                            <th>Depo Adı</th>
+                            <th>Şehir</th>
+                            <th>Kapasite</th>
+                            <th>Kullanım</th>
+                            <th>Sorumlu</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody id="warehouses-table">
+                        <!-- JavaScript ile doldurulacak -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stocks Page -->
+    <div id="stocks-page" class="content-page" style="display:none;">
+        <div class="page-header">
+            <div>
+                <h1>Stoklar</h1>
+                <p class="text-muted">Depo bazlı stok yönetimi ve takibi</p>
+            </div>
+            <button class="btn-modern btn-primary" onclick="showStockForm()">
+                <i class="fas fa-plus me-2"></i>Yeni Stok Kaydı
+            </button>
+        </div>
+
+        <!-- Stock Form -->
+        <div id="stock-form" class="card-modern mb-4" style="display:none;">
+            <div class="card-header-modern">
+                <h5><i class="fas fa-boxes me-2"></i>Yeni Stok Kaydı Ekle</h5>
+            </div>
+            <div class="card-body-modern">
+                <form id="add-stock-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Ürün Seç</label>
+                            <select class="form-control-modern" id="stock-product" required>
+                                <option value="">Ürün seçin...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Depo Seç</label>
+                            <select class="form-control-modern" id="stock-warehouse" required>
+                                <option value="">Depo seçin...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Miktar</label>
+                            <input type="number" class="form-control-modern" id="stock-quantity" placeholder="100" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Rezerve Miktar</label>
+                            <input type="number" class="form-control-modern" id="stock-reserved" placeholder="0" value="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Reorder Point</label>
+                            <input type="number" class="form-control-modern" id="stock-reorder" placeholder="20">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn-modern btn-primary me-2">
+                            <i class="fas fa-save me-2"></i>Kaydet
+                        </button>
+                        <button type="button" class="btn-modern btn-secondary" onclick="hideStockForm()">
+                            <i class="fas fa-times me-2"></i>İptal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Stocks Table -->
+        <div class="card-modern">
+            <div class="card-body-modern">
+                <div class="table-container">
+                    <table class="table-modern">
+                        <thead>
+                        <tr>
+                            <th>Ürün</th>
+                            <th>Depo</th>
+                            <th>Miktar</th>
+                            <th>Rezerve</th>
+                            <th>Kullanılabilir</th>
+                            <th>Reorder Point</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody id="stocks-table">
+                        <!-- JavaScript ile doldurulacak -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Suppliers Page -->
+    <div id="suppliers-page" class="content-page" style="display:none;">
+        <div class="page-header">
+            <div>
+                <h1>Tedarikçiler</h1>
+                <p class="text-muted">Tedarikçi yönetimi ve performans takibi</p>
+            </div>
+            <button class="btn-modern btn-primary" onclick="showSupplierForm()">
+                <i class="fas fa-plus me-2"></i>Yeni Tedarikçi Ekle
+            </button>
+        </div>
+
+        <!-- Supplier Form -->
+        <div id="supplier-form" class="card-modern mb-4" style="display:none;">
+            <div class="card-header-modern">
+                <h5><i class="fas fa-truck me-2"></i>Yeni Tedarikçi Ekle</h5>
+            </div>
+            <div class="card-body-modern">
+                <form id="add-supplier-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Tedarikçi Kodu</label>
+                            <input type="text" class="form-control-modern" id="supplier-code" placeholder="SUP001" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Firma Adı</label>
+                            <input type="text" class="form-control-modern" id="supplier-name" placeholder="ABC Tedarik A.Ş." required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">İrtibat Kişisi</label>
+                            <input type="text" class="form-control-modern" id="supplier-contact" placeholder="Ahmet Yılmaz">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">E-posta</label>
+                            <input type="email" class="form-control-modern" id="supplier-email" placeholder="info@abc.com">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Adres</label>
+                            <input type="text" class="form-control-modern" id="supplier-address" placeholder="Tam adres">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Şehir</label>
+                            <input type="text" class="form-control-modern" id="supplier-city" placeholder="İstanbul">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Telefon</label>
+                            <input type="text" class="form-control-modern" id="supplier-phone" placeholder="0212-555-0001">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Vergi Numarası</label>
+                            <input type="text" class="form-control-modern" id="supplier-tax" placeholder="1234567890">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn-modern btn-primary me-2">
+                            <i class="fas fa-save me-2"></i>Kaydet
+                        </button>
+                        <button type="button" class="btn-modern btn-secondary" onclick="hideSupplierForm()">
+                            <i class="fas fa-times me-2"></i>İptal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Suppliers Table -->
+        <div class="card-modern">
+            <div class="card-body-modern">
+                <div class="table-container">
+                    <table class="table-modern">
+                        <thead>
+                        <tr>
+                            <th>Kod</th>
+                            <th>Firma Adı</th>
+                            <th>İrtibat Kişisi</th>
+                            <th>Telefon</th>
+                            <th>E-posta</th>
+                            <th>Performans</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody id="suppliers-table">
+                        <!-- JavaScript ile doldurulacak -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Batches Page -->
+    <div id="batches-page" class="content-page" style="display:none;">
+        <div class="page-header">
+            <div>
+                <h1>Partiler (Lot Takibi)</h1>
+                <p class="text-muted">Parti numarası ve son kullanma tarihi yönetimi</p>
+            </div>
+            <button class="btn-modern btn-primary" onclick="showBatchForm()">
+                <i class="fas fa-plus me-2"></i>Yeni Parti Ekle
+            </button>
+        </div>
+
+        <!-- Warning Cards -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card-modern" style="border-left: 4px solid #f59e0b;">
+                    <div class="card-body-modern">
+                        <h6><i class="fas fa-exclamation-triangle" style="color: #f59e0b;"></i> Süresi Dolmak Üzere</h6>
+                        <p class="text-muted mb-0" id="expiring-count">0 parti 30 gün içinde sona erecek</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-modern" style="border-left: 4px solid #ef4444;">
+                    <div class="card-body-modern">
+                        <h6><i class="fas fa-times-circle" style="color: #ef4444;"></i> Süresi Dolmuş</h6>
+                        <p class="text-muted mb-0" id="expired-count">0 parti süresi dolmuş</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Batch Form -->
+        <div id="batch-form" class="card-modern mb-4" style="display:none;">
+            <div class="card-header-modern">
+                <h5><i class="fas fa-barcode me-2"></i>Yeni Parti Ekle</h5>
+            </div>
+            <div class="card-body-modern">
+                <form id="add-batch-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Parti Numarası</label>
+                            <input type="text" class="form-control-modern" id="batch-number" placeholder="LOT2024001" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ürün Seç</label>
+                            <select class="form-control-modern" id="batch-product" required>
+                                <option value="">Ürün seçin...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Depo Seç</label>
+                            <select class="form-control-modern" id="batch-warehouse" required>
+                                <option value="">Depo seçin...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Tedarikçi</label>
+                            <select class="form-control-modern" id="batch-supplier">
+                                <option value="">Tedarikçi seçin...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Miktar</label>
+                            <input type="number" class="form-control-modern" id="batch-quantity" placeholder="100" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Üretim Tarihi</label>
+                            <input type="date" class="form-control-modern" id="batch-manufacturing">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Son Kullanma Tarihi</label>
+                            <input type="date" class="form-control-modern" id="batch-expiry">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn-modern btn-primary me-2">
+                            <i class="fas fa-save me-2"></i>Kaydet
+                        </button>
+                        <button type="button" class="btn-modern btn-secondary" onclick="hideBatchForm()">
+                            <i class="fas fa-times me-2"></i>İptal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Batches Table -->
+        <div class="card-modern">
+            <div class="card-body-modern">
+                <div class="table-container">
+                    <table class="table-modern">
+                        <thead>
+                        <tr>
+                            <th>Parti No</th>
+                            <th>Ürün</th>
+                            <th>Depo</th>
+                            <th>Miktar</th>
+                            <th>Kalan</th>
+                            <th>Üretim Tarihi</th>
+                            <th>SKT</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody id="batches-table">
+                        <!-- JavaScript ile doldurulacak -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfers Page -->
+    <div id="transfers-page" class="content-page" style="display:none;">
+        <div class="page-header">
+            <div>
+                <h1>Depo Transferleri</h1>
+                <p class="text-muted">Depolar arası stok transfer yönetimi</p>
+            </div>
+            <button class="btn-modern btn-primary" onclick="showTransferForm()">
+                <i class="fas fa-plus me-2"></i>Yeni Transfer Oluştur
+            </button>
+        </div>
+
+        <!-- Transfer Form -->
+        <div id="transfer-form" class="card-modern mb-4" style="display:none;">
+            <div class="card-header-modern">
+                <h5><i class="fas fa-exchange-alt me-2"></i>Yeni Transfer Oluştur</h5>
+            </div>
+            <div class="card-body-modern">
+                <form id="add-transfer-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Transfer Kodu</label>
+                            <input type="text" class="form-control-modern" id="transfer-code" placeholder="TRF001" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ürün Seç</label>
+                            <select class="form-control-modern" id="transfer-product" required>
+                                <option value="">Ürün seçin...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Kaynak Depo</label>
+                            <select class="form-control-modern" id="transfer-from-warehouse" required>
+                                <option value="">Kaynak depo seçin...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Hedef Depo</label>
+                            <select class="form-control-modern" id="transfer-to-warehouse" required>
+                                <option value="">Hedef depo seçin...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Miktar</label>
+                            <input type="number" class="form-control-modern" id="transfer-quantity" placeholder="50" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Transfer Tarihi</label>
+                            <input type="datetime-local" class="form-control-modern" id="transfer-date">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Notlar</label>
+                            <textarea class="form-control-modern" id="transfer-notes" rows="3" placeholder="Transfer hakkında notlar..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Talep Eden</label>
+                            <input type="text" class="form-control-modern" id="transfer-requested-by" placeholder="Ahmet Yılmaz">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn-modern btn-primary me-2">
+                            <i class="fas fa-save me-2"></i>Transfer Oluştur
+                        </button>
+                        <button type="button" class="btn-modern btn-secondary" onclick="hideTransferForm()">
+                            <i class="fas fa-times me-2"></i>İptal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Transfers Table -->
+        <div class="card-modern">
+            <div class="card-body-modern">
+                <div class="table-container">
+                    <table class="table-modern">
+                        <thead>
+                        <tr>
+                            <th>Transfer Kodu</th>
+                            <th>Ürün</th>
+                            <th>Kaynak Depo</th>
+                            <th>Hedef Depo</th>
+                            <th>Miktar</th>
+                            <th>Durum</th>
+                            <th>Transfer Tarihi</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody id="transfers-table">
+                        <!-- JavaScript ile doldurulacak -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
